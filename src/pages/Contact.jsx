@@ -117,7 +117,7 @@ const Contact = () => {
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Get in Touch</h2>
               <p className="text-gray-600 dark:text-gray-300 mb-8">
                 Our team is here to help you find the right HR solution for your organization.
-                Reach out to us through any of the following channels.
+                Reach out to us through any of the source.
               </p>
               <div className="space-y-6">
                 <div className="flex items-start">
@@ -136,7 +136,7 @@ const Contact = () => {
                   </svg>
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Phone</h3>
-                    <p className="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                    <p className="text-gray-600 dark:text-gray-300">+91 9373841473</p>
                     <p className="text-gray-600 dark:text-gray-300">Mon-Fri 9am-6pm EST</p>
                   </div>
                 </div>
@@ -147,11 +147,7 @@ const Contact = () => {
                   </svg>
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Address</h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      123 Business St, Suite 100<br />
-                      New York, NY 10001<br />
-                      United States
-                    </p>
+                  <span>123 Business St, ESquare<br />IND</span>
                   </div>
                 </div>
               </div>
@@ -213,7 +209,7 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      placeholder="+1 (555) 123-4567"
+                      placeholder="+91 9398745632"
                     />
                   </div>
                   <div>

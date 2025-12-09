@@ -1,7 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 const Register = () => {
+  const navigate = useNavigate()
+  const { register } = useAuth()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,6 +13,7 @@ const Register = () => {
     companyName: '',
     terms: false
   })
+  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -17,16 +21,35 @@ const Register = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }))
+    setError('')
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setError('')
+    
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match')
+      setError('Passwords do not match')
       return
     }
-    // In a real application, this would register with a backend
-    console.log('Registration attempt:', formData)
+
+    if (!formData.terms) {
+      setError('Please accept the terms and conditions')
+      return
+    }
+
+    try {
+      register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        companyName: formData.companyName
+      })
+      // Redirect to home page after successful registration
+      navigate('/')
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.')
+    }
   }
 
   return (
@@ -132,6 +155,12 @@ const Register = () => {
               />
             </div>
           </div>
+
+          {error && (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
 
           <div className="flex items-center">
             <input

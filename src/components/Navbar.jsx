@@ -1,11 +1,20 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { useAuth } from '../context/AuthContext'
 
 const Navbar = () => {
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  const { user, logout } = useAuth()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+    setIsMenuOpen(false)
+  }
 
   const services = [
     { name: 'Payroll Software', path: '/services/payroll-software' },
@@ -87,18 +96,34 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            <Link
-              to="/login"
-              className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Register
-            </Link>
+            {user ? (
+              <>
+                <span className="text-gray-700 dark:text-gray-300 px-3 py-2 text-sm font-medium">
+                  Heyy, {user.name}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Register
+                </Link>
+              </>
+            )}
 
             {/* Theme Toggle */}
             <button
@@ -209,20 +234,36 @@ const Navbar = () => {
             >
               Contact
             </Link>
-            <Link
-              to="/login"
-              className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="block px-3 py-2 bg-blue-600 text-white rounded-md text-center font-medium"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Register
-            </Link>
+            {user ? (
+              <>
+                <div className="block px-3 py-2 text-gray-700 dark:text-gray-300 font-medium">
+                  Heyy, {user.name}
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full px-3 py-2 bg-red-600 text-white rounded-md text-center font-medium hover:bg-red-700"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="block px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="block px-3 py-2 bg-blue-600 text-white rounded-md text-center font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

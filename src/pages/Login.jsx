@@ -1,11 +1,19 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 const Login = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { authenticate } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
+  const [error, setError] = useState('')
+
+  // Get the page user was trying to access before being redirected to login
+  const from = location.state?.from?.pathname || '/product'
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -13,12 +21,21 @@ const Login = () => {
       ...prev,
       [name]: value
     }))
+    setError('')
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // In a real application, this would authenticate with a backend
-    console.log('Login attempt:', formData)
+    setError('')
+    
+    const success = authenticate(formData.email, formData.password)
+    
+    if (success) {
+      // Redirect to the page user was trying to access, or product page by default
+      navigate(from, { replace: true })
+    } else {
+      setError('Invalid email or password. Please try again.')
+    }
   }
 
   return (
@@ -33,6 +50,11 @@ const Login = () => {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
             Sign in to your account
           </h2>
+          {location.state?.from && (
+            <div className="mt-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 px-4 py-3 rounded-lg text-center text-sm">
+              Please login to access the Product Planner
+            </div>
+          )}
           <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
             Or{' '}
             <Link
@@ -79,6 +101,12 @@ const Login = () => {
             </div>
           </div>
 
+          {error && (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <input
@@ -93,9 +121,12 @@ const Login = () => {
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+              <Link
+                to="/forgot-password"
+                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+              >
                 Forgot your password?
-              </a>
+              </Link>
             </div>
           </div>
 

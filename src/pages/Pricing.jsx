@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 
+
 const Pricing = () => {
   const plans = [
     {
@@ -55,7 +56,7 @@ const Pricing = () => {
         'Dedicated account manager',
         '2 months free (save $58)'
       ],
-      cta: 'Start Free Trial',
+      cta: 'Contact Sales',
       popular: false
     }
   ]
@@ -125,7 +126,7 @@ const Pricing = () => {
                   ))}
                 </ul>
                 <Link
-                  to="/register"
+                  to={plan.cta === 'Start Free Trial' ? '/contact' : '/contact'}
                   className={`block w-full text-center py-3 px-6 rounded-lg font-semibold transition-colors ${
                     plan.popular
                       ? 'bg-blue-600 hover:bg-blue-700 text-white'
@@ -194,7 +195,7 @@ const Pricing = () => {
               Start your free trial today. No credit card required.
             </p>
             <Link
-              to="/register"
+              to="/contact"
               className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
             >
               Start Free Trial
