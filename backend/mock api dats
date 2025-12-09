@@ -1,0 +1,47 @@
+1️⃣ Create a new task
+POST http://localhost:8080/api/tasks
+{
+  "title": "Design Homepage",
+  "description": "Create UI for the landing page",
+  "assignedTo": "Muskaan",
+  "status": "PENDING"   // Can be PENDING, IN_PROGRESS, COMPLETED
+}
+
+
+2️⃣ Get All Tasks
+GET http://localhost:8080/api/tasks
+
+
+
+
+
+3️⃣ Get Task by ID
+GET http://localhost:8080/api/tasks/1
+
+
+
+
+4️⃣ Get Tasks by Status
+GET http://localhost:8080/api/tasks/status/PENDING
+
+
+
+5️⃣ Update a Task
+PUT http://localhost:8080/api/tasks/1
+{
+  "title": "Design Homepage Updated",
+  "description": "Update UI with new colors",
+  "assignedTo": "Muskaan",
+  "status": "IN_PROGRESS"
+}
+
+
+
+6 Update Task Status Only
+PATCH http://localhost:8080/api/tasks/1/status
+
+
+
+
+7️⃣ Delete a Task
+DELETE http://localhost:8080/api/tasks/1

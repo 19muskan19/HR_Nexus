@@ -3,16 +3,24 @@ import { Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 
 const WelcomeModal = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  // Initialize state based on localStorage immediately
+  const [isOpen, setIsOpen] = useState(() => {
+    // Check localStorage synchronously during initialization
+    if (typeof window !== 'undefined') {
+      const hasSeenModal = localStorage.getItem('hasSeenWelcomeModal')
+      return !hasSeenModal // true if not seen, false if seen
+    }
+    return false
+  })
   const { theme } = useTheme()
 
-  useEffect(() => {
-    // Check if modal has been shown before
-    const hasSeenModal = localStorage.getItem('hasSeenWelcomeModal')
-    if (!hasSeenModal) {
-      setIsOpen(true)
-    }
-  }, [])
+  // Remove the useEffect since we're initializing state directly
+  // useEffect(() => {
+  //   const hasSeenModal = localStorage.getItem('hasSeenWelcomeModal')
+  //   if (!hasSeenModal) {
+  //     setIsOpen(true)
+  //   }
+  // }, [])
 
   const handleClose = () => {
     setIsOpen(false)
